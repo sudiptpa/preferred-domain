@@ -1,27 +1,28 @@
 {
-    "name": "sudiptpa/domain",
-    "description": "Set preferred domain for Laravel application.",
-    "keywords": ["SEO", "preferred domain"],
+    "name": "sudiptpa/preferred-domain",
+    "description": "Set preferred domain for Laravel application with a middleware.",
+    "keywords": ["canonical domain", "preferred domain"],
     "license": "MIT",
     "authors": [
         {
             "name": "Sujip Thapa",
-            "email": "sudiptpa@gmail.com"
+            "email": "sudiptpa@gmail.com",
+            "role" : "Developer"
         }
     ],
     "require": {
-        "php": ">=7.0.0",
-        "illuminate/contracts": "~5.0"
+        "php" : "^7.0",
+        "illuminate/contracts": "~5.4.0|~5.5.0",
+        "illuminate/support": "~5.4.0|~5.5.0",
     },
     "require-dev": {
-        "illuminate/support": "~5.0",
-        "mockery/mockery": "~0.9.3",
-        "phpunit/phpunit": "^5.7",
-        "friendsofphp/php-cs-fixer":"~1.0"
+      "friendsofphp/php-cs-fixer":"~2.0",
+      "mockery/mockery": "^0.9.4",
+      "phpunit/phpunit": "6.*"
     },
     "autoload": {
         "psr-4": {
-            "Sujip\\Domain\\": "src/"
+            "Sujip\\": "src/"
         }
     },
     "extra": {
@@ -30,10 +31,13 @@
         },
         "laravel": {
             "providers": [
-                "Sujip\\Domain\\PreferredDomainServiceProvider"
+                "Sujip\\PreferredDomainServiceProvider"
             ]
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
 }
