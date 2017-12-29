@@ -22,7 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Sujip\\": "src/"
+            "Sujip\\PreferredDomain\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sujip\\PreferredDomain\\Test\\": "tests"
         }
     },
     "extra": {

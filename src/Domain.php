@@ -1,12 +1,12 @@
 <?php
 
-namespace Sujip;
+namespace Sujip\PreferredDomain;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
- * Class Domain
+ * Class Domain\PreferredDomain
  * @package Sujip
  */
 class Domain
@@ -50,7 +50,7 @@ class Domain
      */
     public function isEqual()
     {
-        return $this->request->fullUrl() != $this->translated;
+        return $this->request->fullUrl() !== $this->getTranslated();
     }
 
     /**
@@ -70,6 +70,10 @@ class Domain
      */
     public function getTranslated()
     {
+        if (!$this->translated) {
+            $this->translated = $this->translate();
+        }
+
         return $this->translated;
     }
 

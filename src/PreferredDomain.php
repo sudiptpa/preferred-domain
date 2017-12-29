@@ -1,13 +1,12 @@
 <?php
 
-namespace Sujip\Middleware;
+namespace Sujip\PreferredDomain;
 
 use Closure;
-use Sujip\Domain;
 
 /**
  * Class PreferredDomain
- * @package Sujip\Middleware
+ * @package Sujip\PreferredDomain
  */
 class PreferredDomain
 {
