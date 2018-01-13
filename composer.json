@@ -1,6 +1,6 @@
 {
     "name": "sudiptpa/preferred-domain",
-    "description": "Set preferred domain for Laravel application with a middleware.",
+    "description": "Set Preferred Domain for Laravel Application with a Middleware.",
     "keywords": ["canonical domain", "preferred domain"],
     "license": "MIT",
     "authors": [
@@ -11,23 +11,23 @@
         }
     ],
     "require": {
-        "php" : "^7.0",
-        "illuminate/contracts": "~5.4.0|~5.5.0",
-        "illuminate/support": "~5.4.0|~5.5.0",
+        "php": ">=7.0",
+        "illuminate/http" : "~5.5.0",
+        "illuminate/support": "~5.5.0"
     },
     "require-dev": {
       "friendsofphp/php-cs-fixer":"~2.0",
-      "mockery/mockery": "^0.9.4",
-      "phpunit/phpunit": "6.*"
+      "orchestra/testbench": "^3.5",
+      "phpunit/phpunit": "~6.0"
     },
     "autoload": {
         "psr-4": {
-            "Sujip\\PreferredDomain\\": "src/"
+            "Sujip\\Middleware\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Sujip\\PreferredDomain\\Test\\": "tests"
+            "Sujip\\Middleware\\Tests\\": "tests"
         }
     },
     "extra": {

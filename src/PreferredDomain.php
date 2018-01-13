@@ -1,12 +1,12 @@
 <?php
 
-namespace Sujip\PreferredDomain;
+namespace Sujip\Middleware;
 
 use Closure;
 
 /**
  * Class PreferredDomain
- * @package Sujip\PreferredDomain
+ * @package Sujip\Middleware
  */
 class PreferredDomain
 {
@@ -19,15 +19,11 @@ class PreferredDomain
      */
     public function handle($request, Closure $next)
     {
-        $domain = new Domain(
-            $request,
-            app('config')
-        );
+        $domain = new Domain($request);
 
         if ($domain->diff()) {
-            return \Redirect::to(
-                $domain->getTranslated(),
-                301
+            return redirect()->to(
+                $domain->getTranslated(), 301
             );
         }
 

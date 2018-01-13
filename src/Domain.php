@@ -1,13 +1,12 @@
 <?php
 
-namespace Sujip\PreferredDomain;
+namespace Sujip\Middleware;
 
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
- * Class Domain\PreferredDomain
- * @package Sujip
+ * Class Domain
+ * @package Sujip\Middleware
  */
 class Domain
 {
@@ -17,18 +16,13 @@ class Domain
     const FORCE_WWW = '//www.';
     const FORCE_NOWWW = '//';
 
-    const REGEX_FILTER_WWW = "/(\/\/www\.|\/\/)/";
-    const REGEX_FILTER_HTTPS = "/^(http:\/\/|https:\/\/)/";
+    const REGEX_FILTER_WWW = '/(\/\/www\.|\/\/)/';
+    const REGEX_FILTER_HTTPS = '/^(http:\/\/|https:\/\/)/';
 
     /**
      * @var \Illuminate\Http\Request
      */
     protected $request;
-
-    /**
-     * @var \Illuminate\Contracts\Config\Repository
-     */
-    protected $config;
 
     /**
      * @var string
@@ -37,18 +31,16 @@ class Domain
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Contracts\Config\Repository $config
      */
-    public function __construct(Request $request, Repository $config = null)
+    public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->config = $config;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function isEqual()
+    public function isEqual(): bool
     {
         return $this->request->fullUrl() !== $this->getTranslated();
     }
@@ -58,7 +50,7 @@ class Domain
      *
      * @return bool
      */
-    public function diff()
+    public function diff(): bool
     {
         $this->translated = $this->translate();
 
@@ -68,7 +60,7 @@ class Domain
     /**
      * @return string
      */
-    public function getTranslated()
+    public function getTranslated(): string
     {
         if (!$this->translated) {
             $this->translated = $this->translate();
@@ -78,9 +70,9 @@ class Domain
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function translate()
+    public function translate(): string
     {
         $url = $this->request->fullUrl();
 
@@ -94,18 +86,27 @@ class Domain
     }
 
     /**
+     * Determines if the request supports the https,
+     * otherwise, fallback to default (http) protocol.
+     *
      * @return string
      */
-    public function getProtocol()
+    public function getProtocol(): string
     {
-        return $this->config->get('domain.protocol') ?? self::FORCE_HTTP;
+        if (!$this->request->secure()) {
+            return self::FORCE_HTTP;
+        }
+
+        return config('domain.protocol') ?? self::FORCE_HTTP;
     }
 
     /**
+     * Determines the preferred domain from config.
+     *
      * @return string
      */
-    public function getPreferred()
+    public function getPreferred(): string
     {
-        return $this->config->get('domain.preferred') ?? self::FORCE_NOWWW;
+        return config('domain.preferred') ?? self::FORCE_NOWWW;
     }
 }
