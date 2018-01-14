@@ -1,22 +1,15 @@
 <?php
 
-namespace Sujip\Domain;
+namespace Sujip\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Support\Str;
 
+/**
+ * Class PreferredDomain
+ * @package Sujip\Middleware
+ */
 class PreferredDomain
 {
-
-    /**
-     * @param Repository $config
-     */
-    public function __construct(Repository $config)
-    {
-        $this->config = $config;
-    }
-
     /**
      * Handle an incoming request.
      *
@@ -26,13 +19,12 @@ class PreferredDomain
      */
     public function handle($request, Closure $next)
     {
-        if (Str::startsWith($request->header('host'), 'www.') && !$this->config->get('domain.www')) {
-            $host = str_replace('www.', '', $request->header('host'));
-            $request->headers->set('host', $host);
-        }
+        $domain = new Domain($request);
 
-        if (Str::startsWith($request->header('host'), 'http') && $this->config->get('domain.www')) {
-            //to do
+        if ($domain->diff()) {
+            return redirect()->to(
+                $domain->getTranslated(), 301
+            );
         }
 
         return $next($request);
